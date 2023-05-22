@@ -1,0 +1,66 @@
+# DDL - Create
+create database store;
+
+create table countries (
+    code int  primary key ,
+    name varchar(20)  unique ,
+    continent_name varchar(20)  not null
+);
+create table users (
+    id int primary key ,
+    full_name varchar(20)   ,
+    email varchar(20)  unique ,
+    gender char(1)  check( gender='m' or gender = 'f' ) ,
+    date_of_birth varchar(15) ,
+    created_at datetime,
+    country_code int,
+     foreign key (country_code) references countries(code)
+);
+create table orders (
+    id int  primary key ,
+    user_id int,
+    foreign key (user_id) references users(id),
+    status varchar(6) check( status='start' or status = 'finish' ) ,
+    created_at datetime
+);
+create table products (
+
+    id int primary key ,
+    name varchar(10)  not null ,
+    price int default 0 ,
+    status varchar(10)  check( status='valid' or status = 'expired' )
+
+);
+create table order_products (
+    order_id int,
+      foreign key (order_id) references orders(id),
+      product_id int,
+    foreign key (product_id) references products(id),
+    quantity int default 0
+
+);
+
+
+# DML - Insert
+
+insert  into countries values  ('123','ksa','lll');
+	
+
+insert into users values('111','saud Ali','qwe@qwe.com','m','1970-01-01 00:00:01.000000','1990-01-01 00:00:01.000000','123')
+	
+insert  into orders values  ('333','111','start','1970-01-02 00:00:01.000000');
+
+insert  into products values  ('444','tee','150','valid');
+
+insert  into order_products values  ('333','444','150');
+
+
+# DML - Update
+
+
+update  countries set  name='UAE' where code='123';
+update  countries set  continent_name='sss' where code='123';
+
+# DML - Delete
+insert  into products values  ('555','aaa','150','valid');
+delete from  product where id='555';
